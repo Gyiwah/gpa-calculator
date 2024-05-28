@@ -268,6 +268,7 @@ body{
     box-shadow: 0 0 5px var(--hover),
                 0 0 15px var(--hover);
     font-size: 22px;
+    cursor: pointer;
     transform: scale(1.2)translateY(-7px);
   }
   .screen{
@@ -308,6 +309,7 @@ body{
     color: var(--text-color);
     font-weight: 600;
     border-radius: 50px;
+    cursor: pointer;
     transition: 0.3s ease-in-out;
   }
   
