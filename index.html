@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset=UTF-8>
+  <link rel="stylesheet" href="style.css"/>
+  <title>GAF TECH</title>
+</head>
+<body>
+  <div class="whole">
+    <div class="heading"><h1>GPA CALCULATOR</h1></div>
+    <div class="side">
+      <div id="semester" class="elements">        
+        <div id="content" class="semester-element-content"><h3>...<br></h3> <h2>Semester</h2></div>
+      </div>
+      <div id="academic-year" class="elements">
+        <div id="content" class="academic-year-element-content"><h3>...<br></h3> <h2>Year</h2></div>
+      </div>
+      <div id="highest-grade" class="elements">
+        <div id="content" class="highest-grade-element-content"><h3>...<br></h3> <h2>High</h2></div>
+      </div>
+      <div id="lowest-grade" class="elements">
+        <div id="content" class="lowest-grade-element-content"><h3>...<br></h3> <h2>Low</h2></div>
+      </div>
+
+    </div>
+    <div class="card">
+     <div class="content-box">
+      <div class="top">
+        <div class="speaker"></div>
+        <div class="camera"></div>
+      </div>
+      <div class="logo"> 
+        <img src="GAF.png" alt="Logo" id="gaf-logo" >GAF Tech
+        <img src="UEW-logo.png" alt="UEW" id="school-logo">
+      </div>
+       <div class="display-class"><input class="class" type="text" placeholder="CLASS OF HONOUR" readonly></div>
+       <span class="GPA-container">Semester GPA:<input id="sgpa" class="display-gpa" type="text" readonly></span>
+       <span class="GPA-container">Comulative GPA:<input id="cgpa" class="display-gpa" type="text" readonly></span>
+       <div class="grades">         
+           <input type="text" class="screen" readonly>
+           <button  class="leter-grades" onclick="display('A')">A</button>
+           <button  class="leter-grades" onclick="display('B+')">B+</button>
+           <button  class="leter-grades" onclick="display('B')">B</button>
+           <button  class="leter-grades" onclick="display('C+')">C+</button>
+           <button  class="leter-grades" onclick="display('C')">C</button>
+           <button  class="leter-grades" onclick="display('D+')">D+</button>
+           <button  class="leter-grades" onclick="display('D')">D</button>
+           <button  class="leter-grades" onclick="display('E')">E</button>
+         
+       </div>
+
+        <button class="btn" id="next">NEXT</button>
+        <button class="btn" id="clear">CLEAR</button>
+      
+     </div>
+
+      
+    </div>
+  </div>
+    
+  <script src="script.js"></script>
+</body>
+</html>
