@@ -158,7 +158,8 @@ document.getElementById('next').addEventListener('click', () => {
     updateSemester();
     updateAcademicYear();
     grades = [];
-    document.querySelector('.screen').value = ''; 
+    document.querySelector('.screen').value = '';
+    document.getElementById('sgpa').value = '';
     updateHighestAndLowestGrade();   
 });
 
