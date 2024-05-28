@@ -18,9 +18,13 @@
 /*====Light Colors=====*/
 
 }
+body{
+  width: 100%;
+  height: 100vh;
+}
 .whole{
     width: 100%;
-    height: 110%;
+    height: 100%;
     background-position: center;
     background-size: cover;
     background-color: var(--bg-color);
@@ -28,7 +32,7 @@
         
   }
   .side{
-    height: 610px;
+    height: 500x;
     width: 15%;
     margin-left: 30%;
   }
@@ -144,7 +148,7 @@
     height: 610px;
     background-color: rgb(59, 57, 57);
     margin: 0 0 0 45%;
-    margin-top: -630px;
+    margin-top: -540px;
     border-radius: 20px;
     border: 1px solid var(--bg-color);
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
@@ -187,8 +191,9 @@
     margin-left: 200px;
   }
   .heading{
-    margin: 20px auto 50px;
+    margin: 10px auto 20px ;
     text-align: center;
+    display: none;
   }
   .content-box{
     width: 372px;
@@ -264,9 +269,6 @@
                 0 0 15px var(--hover);
     font-size: 22px;
     transform: scale(1.2)translateY(-7px);
-  }
-  .leter-grades:focus{
-    
   }
   .screen{
     border: 0px;
@@ -359,6 +361,7 @@
     }
     .card{
       margin-left: auto;
+      margin-top: -650px;
       
     }
   }
