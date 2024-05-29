@@ -133,6 +133,8 @@ function updateHighestAndLowestGrade(){
     if (cumulativeGrades.length===0){
         document.querySelector('.highest-grade-element-content h3').textContent = 'N/A';
         document.querySelector('.lowest-grade-element-content h3').textContent = 'N/A';
+        document.querySelector('.semester-element-content h3').textContent = '...';
+        document.querySelector('.academic-year-element-content h3').textContent = '...';
         return;
     }
 
@@ -170,8 +172,7 @@ function deleteGrade(inputs){
         calculateGPA();
     }
     else if(parts.length == 0){
-        calculateGPA();
-        document.getElementById('sgpa').value ='';
+        calculateGPA();        
     }
     
 }
@@ -191,6 +192,9 @@ document.getElementById('next').addEventListener('click', () => {
 document.getElementById('delete').addEventListener('click', () => {      
       const inputs = document.querySelector('.screen');
       deleteGrade(inputs);
+      if(cumulativeGrades.length===0){
+        document.getElementById('sgpa').value ='';
+    }
 
 });
 
