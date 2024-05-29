@@ -313,8 +313,14 @@ body{
     cursor: pointer;
     transition: 0.3s ease-in-out;
   }
+  .icons{
+    width: 50px;
+    padding: 0;
+    margin-top: 5px;
+  }
   #delete, #clear{
-    width: 75px;
+    width: 60px;
+    height: 60px;
     margin: 2px;
   }
   
