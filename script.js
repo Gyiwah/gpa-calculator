@@ -29,9 +29,9 @@ function classOfHonour(){
     if(cumulativePoints >=3.5)
         document.querySelector('.class').value = "FIRST CLASS HONOUR";
     else if(cumulativePoints >=3.0)
-        document.querySelector('.class').value = "SECOND CLASS HONOURS(Upper Division)";
+        document.querySelector('.class').value = "SECOND CLASS HONOURS (Upper Division)";
     else if(cumulativePoints >=2.5)
-        document.querySelector('.class').value = "SECOND CLASS HONOURS(Lower Division)";
+        document.querySelector('.class').value = "SECOND CLASS HONOURS (Lower Division)";
     else if(cumulativePoints >=2.0)
         document.querySelector('.class').value = "THEIRD CLASS HONOUR";
     else if(cumulativePoints <2.0)
