@@ -286,7 +286,7 @@ body{
                 0 0 15px var(--text-color);
   }
   input.screen{
-    transition: 0.7s ease-in-out;
+    transition: 0.4s ease-in-out;
   }
   input:focus{
     outline: none;
@@ -296,6 +296,7 @@ body{
     border: 4px solid #071bd6;
     box-shadow: 0 0 25px #071bd6,
                 0 0 50px #071bd6;
+    transform: translateY(-10px);
   }
   .btn{
     display: flexbox;
@@ -311,6 +312,10 @@ body{
     border-radius: 50px;
     cursor: pointer;
     transition: 0.3s ease-in-out;
+  }
+  #delete, #clear{
+    width: 75px;
+    margin: 2px;
   }
   
   .btn:hover{
