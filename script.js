@@ -15,7 +15,7 @@ let gradePoints = {
 function display(grade) {
     grades.push(grade);
     cumulativeGrades.push(grade);
-    document.querySelector('.screen').value = grades.join(', ');
+    document.querySelector('.screen').value = grades.join(',');
     calculateGPA();
     determineSemester();
     classOfHonour();
@@ -152,6 +152,31 @@ function updateHighestAndLowestGrade(){
     document.querySelector('.highest-grade-element-content h3').textContent = highestGrade;
     document.querySelector('.lowest-grade-element-content h3').textContent = lowestGrade;
 }
+
+//Fucntion  to delete grade
+function deleteGrade(inputs){
+    const inputValue = inputs.value;
+    const parts=inputValue.split(',');
+    if(parts[parts.length-1] == 'A' || parts[parts.length-1] == 'B' || parts[parts.length-1] == 'C' || parts[parts.length-1] == 'D' || parts[parts.length-1] == 'E'){
+        inputs.value = inputValue.slice(0, -2);
+        cumulativeGrades.pop();
+        grades.pop();
+        calculateGPA();
+    }
+    else if(parts[parts.length-1] == 'B+' || parts[parts.length-1] == 'C+' || parts[parts.length-1] == 'D+'){
+        inputs.value = inputValue.slice(0, -3);
+        cumulativeGrades.pop();
+        grades.pop();
+        calculateGPA();
+    }
+    else if(parts.length == 0){
+        calculateGPA();
+        document.getElementById('sgpa').value ='';
+    }
+    
+}
+
+
 // Event listeners for buttons
 document.getElementById('next').addEventListener('click', () => {
     
@@ -161,6 +186,12 @@ document.getElementById('next').addEventListener('click', () => {
     document.querySelector('.screen').value = '';
     document.getElementById('sgpa').value = '';
     updateHighestAndLowestGrade();   
+});
+
+document.getElementById('delete').addEventListener('click', () => {      
+      const inputs = document.querySelector('.screen');
+      deleteGrade(inputs);
+
 });
 
 document.getElementById('clear').addEventListener('click', clearDisplay);
