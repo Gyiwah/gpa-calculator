@@ -299,12 +299,11 @@ body{
     transform: translateY(-10px);
   }
   .btn{
-    display: flexbox;
+    display: block;
     border: 0;
     width: 150px;
     height: 50px;
-    margin: 5% 1rem;
-    margin-top: 50px;
+    margin: auto;
     background-color: var(--action);
     font-size: 28px;
     color: var(--text-color);
@@ -312,6 +311,10 @@ body{
     border-radius: 50px;
     cursor: pointer;
     transition: 0.3s ease-in-out;
+  }
+  .active-buttons{
+    margin-top: 30px;
+    display: flex;
   }
   .icons{
     width: 50px;
@@ -321,7 +324,7 @@ body{
   #delete, #clear{
     width: 60px;
     height: 60px;
-    margin: 2px;
+    margin: 10px;
   }
   
   .btn:hover{
