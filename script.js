@@ -96,6 +96,14 @@ function getClassOfHonour(gpa) {
   return 'Pass';
 }
 
+const honourBadgeClasses = {
+  'First Class Honours': 'summary-badge-first',
+  'Second Class Honours (Upper Division)': 'summary-badge-upper',
+  'Second Class Honours (Lower Division)': 'summary-badge-lower',
+  'Third Class Honours': 'summary-badge-third',
+  Pass: 'summary-badge-pass'
+};
+
 function createTableCell(text, className) {
   const cell = document.createElement('td');
   if (className) cell.className = className;
@@ -216,7 +224,7 @@ function renderSemesters() {
       semester.courses.forEach((course, courseIndex) => {
         const row = document.createElement('tr');
         const nameCell = document.createElement('td');
-        nameCell.dataset.label = 'Course title / code';
+        nameCell.dataset.label = 'Course';
         const nameInput = document.createElement('input');
         nameInput.className = 'course-name-input';
         nameInput.type = 'text';
@@ -261,7 +269,7 @@ function renderSemesters() {
 
         const qualityPoints = gradePoints[course.grade] * course.credits;
         const pointsCell = createTableCell(qualityPoints.toFixed(2), 'quality-points-cell');
-        pointsCell.dataset.label = 'Quality points';
+        pointsCell.dataset.label = 'Points';
         const removeCell = document.createElement('td');
         removeCell.className = 'course-remove-cell';
         removeCell.append(createIconButton(
@@ -305,6 +313,8 @@ function updateSummary() {
   const honourBadge = document.getElementById('class-of-honour');
   honourBadge.textContent = honour;
   honourBadge.classList.toggle('summary-badge-active', cumulativeAverage !== null);
+  honourBadge.classList.remove(...Object.values(honourBadgeClasses));
+  if (cumulativeAverage !== null) honourBadge.classList.add(honourBadgeClasses[honour]);
 }
 
 function appendSvgElement(parent, tagName, attributes = {}, text = '') {
@@ -542,10 +552,12 @@ semesterList.addEventListener('input', (event) => {
     course.credits = credits;
     input.closest('tr').querySelector('.quality-points-cell').textContent =
       (gradePoints[course.grade] * course.credits).toFixed(2);
+    updateSemesterCardSummaries();
+    updateSummary();
+    renderChart();
   }
 
   saveSemesters();
-  render();
 });
 
 semesterList.addEventListener('change', (event) => {

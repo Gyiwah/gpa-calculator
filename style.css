@@ -255,6 +255,31 @@ button {
   background: #e8edf5;
 }
 
+.summary-badge-first {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.summary-badge-upper {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.summary-badge-lower {
+  color: #0e7490;
+  background: #cffafe;
+}
+
+.summary-badge-third {
+  color: #b45309;
+  background: #fef3c7;
+}
+
+.summary-badge-pass {
+  color: #be123c;
+  background: #ffe4e6;
+}
+
 .summary-number {
   gap: 9px;
   margin: 9px 0 6px;
@@ -1361,6 +1386,31 @@ body,
   background: #334155;
 }
 
+:root.dark .summary-badge-first {
+  color: #bbf7d0;
+  background: #14532d;
+}
+
+:root.dark .summary-badge-upper {
+  color: #bfdbfe;
+  background: #1e3a8a;
+}
+
+:root.dark .summary-badge-lower {
+  color: #a5f3fc;
+  background: #164e63;
+}
+
+:root.dark .summary-badge-third {
+  color: #fde68a;
+  background: #78350f;
+}
+
+:root.dark .summary-badge-pass {
+  color: #fecdd3;
+  background: #881337;
+}
+
 :root.dark .header-button:hover,
 :root.dark .icon-button:hover,
 :root.dark .grade-button:hover {
@@ -1563,9 +1613,10 @@ body,
   .course-table tbody tr:not(.empty-row) {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 36px;
-    gap: 9px;
-    padding: 11px;
+    grid-template-columns: minmax(0, 1.8fr) minmax(42px, 0.7fr) minmax(50px, 0.85fr) minmax(46px, 0.75fr) 32px;
+    align-items: end;
+    gap: 7px;
+    padding: 9px;
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 10px;
@@ -1584,19 +1635,15 @@ body,
   .course-table tbody td::before {
     color: var(--mid);
     content: attr(data-label);
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-  }
-
-  .course-table tbody td:first-child {
-    grid-column: 1 / -1;
+    white-space: nowrap;
   }
 
   .course-table tbody td.course-remove-cell {
-    grid-column: 3;
-    grid-row: 2;
+    grid-column: 5;
     align-items: center;
     justify-content: flex-end;
   }
@@ -1608,20 +1655,23 @@ body,
   .course-name-input {
     width: 100%;
     min-width: 0;
-    height: 38px;
-    font-size: 14px;
+    height: 34px;
+    padding: 0 5px;
+    font-size: 12px;
   }
 
   .credit-input,
   .grade-select {
     width: 100%;
-    height: 38px;
-    font-size: 14px;
+    min-width: 0;
+    height: 34px;
+    padding: 0 4px;
+    font-size: 12px;
   }
 
   .quality-points-cell {
     justify-content: center;
-    font-size: 14px !important;
+    font-size: 12px !important;
     font-weight: 700;
   }
 
@@ -1637,6 +1687,30 @@ body,
 
   .course-table tbody tr.empty-row td::before {
     content: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .course-table tbody tr:not(.empty-row) {
+    grid-template-columns: minmax(0, 1fr) 40px 46px 42px 28px;
+    gap: 4px;
+    padding: 6px;
+  }
+
+  .course-table tbody td::before {
+    font-size: 7px;
+  }
+
+  .course-name-input,
+  .credit-input,
+  .grade-select {
+    height: 32px;
+    font-size: 10px;
+  }
+
+  .course-table tbody td.course-remove-cell .icon-button {
+    width: 26px;
+    height: 28px;
   }
 }
 
