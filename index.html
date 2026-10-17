@@ -1,75 +1,135 @@
-<!DOCTYPE html>
-
-<html lang="us">
+<!doctype html>
+<html lang="en" class="light">
 <head>
-  <meta charset=UTF-8>
-  <meta name="viewport" content="width=device-width initial-scale=1.0">
-  <link rel="stylesheet" href="style.css"/>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8fafc">
+  <meta name="description" content="Track your courses, credit-weighted GPA, and semester performance with GAF Tech.">
+  <link rel="stylesheet" href="style.css">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="manifest" href="site.webmanifest">
-
-  <title>GAF TECH</title>
-
+  <title>GPA Calculator | GAF Tech</title>
 </head>
 <body>
-  <div class="whole">
-    <div class="heading"><h1>GPA CALCULATOR</h1></div>
-    <div class="side">
-      <div id="semester" class="elements">        
-        <div id="content" class="semester-element-content"><h3>...<br></h3> <h2>Semester</h2></div>
-      </div>
-      <div id="academic-year" class="elements">
-        <div id="content" class="academic-year-element-content"><h3>...<br></h3> <h2>Year</h2></div>
-      </div>
-      <div id="highest-grade" class="elements">
-        <div id="content" class="highest-grade-element-content"><h3>...<br></h3> <h2>High</h2></div>
-      </div>
-      <div id="lowest-grade" class="elements">
-        <div id="content" class="lowest-grade-element-content"><h3>...<br></h3> <h2>Low</h2></div>
-      </div>
-
-    </div>
-    <div class="card">
-     <div class="content-box">
-      <div class="top">
-        <div class="speaker"></div>
-        <div class="camera"></div>
-      </div>
-      <div class="logo"> 
-        <img src="GAF.png" alt="Logo" id="gaf-logo" >GAF Tech
-        <img src="UEW-logo.png" alt="UEW" id="school-logo">
-      </div>
-       <div class="display-class"><input class="class" type="text" placeholder="CLASS OF HONOUR" readonly></div>
-       <span class="GPA-container">Semester GPA:<input id="sgpa" class="display-gpa" type="text" readonly></span>
-       <span class="GPA-container">Cumulative GPA:<input id="cgpa" class="display-gpa" type="text" readonly></span>
-       <div class="grades">         
-           <input type="text" class="screen" readonly>
-           <button  class="leter-grades" onclick="display('A')">A</button>
-           <button  class="leter-grades" onclick="display('B+')">B+</button>
-           <button  class="leter-grades" onclick="display('B')">B</button>
-           <button  class="leter-grades" onclick="display('C+')">C+</button>
-           <button  class="leter-grades" onclick="display('C')">C</button>
-           <button  class="leter-grades" onclick="display('D+')">D+</button>
-           <button  class="leter-grades" onclick="display('D')">D</button>
-           <button  class="leter-grades" onclick="display('E')">E</button>
-         
-       </div>
-
-        <div class="active-buttons">
-          <button class="btn" id="next">NEXT</button>
-          <button class="btn" id="delete"><img src="tag-x-solid-108.png" alt="DEL" class="icons"></button>
-          <button class="btn" id="clear"><img src="x-circle-solid-108.png" alt="CLEAR" class="icons"></button>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="GAF Tech GPA Calculator home">
+        <span class="brand-mark"><img src="android-chrome-192x192.png" alt=""></span>
+        <span class="brand-copy">
+          <strong>GAF <span>TECH</span></strong>
+          <small>Performance analytics &amp; calculator</small>
+        </span>
+      </a>
+      <div class="topbar-actions">
+        <button class="header-button" id="export" type="button" title="Export your GPA report as CSV">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 16v4h14v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Export</span>
+        </button>
+        <button class="header-button" id="print" type="button" title="Print GPA report">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V4h10v4m-10 9H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2m-10-3h10v7H7v-7Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Print</span>
+        </button>
+        <button class="header-button theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode">
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.2 15.2A8.5 8.5 0 0 1 8.8 3.8 8.5 8.5 0 1 0 20.2 15.2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2m10-10h-2M4 12H2m17.07 7.07-1.42-1.42M6.35 6.35 4.93 4.93m14.14 0-1.42 1.42M6.35 17.65l-1.42 1.42" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span class="theme-label">Dark mode</span>
+        </button>
+        <span class="topbar-divider" aria-hidden="true"></span>
+        <div class="school-mark">
+          <img src="UEW-logo.png" alt="">
+          <span>UNIVERSITY OF<br>EDUCATION, WINNEBA</span>
         </div>
-      
-     </div>
+      </div>
+    </header>
 
-      
-    </div>
+    <main class="main-content">
+      <section class="summary-grid" aria-label="Academic performance summary">
+        <article class="summary-card summary-card-primary">
+          <div class="summary-card-top">
+            <span class="summary-title">CUMULATIVE GPA</span>
+            <span class="summary-badge" id="class-of-honour">Awaiting grades</span>
+          </div>
+          <div class="summary-number"><strong id="cgpa">—</strong><span>/ 4.00</span></div>
+          <div class="progress-track" aria-label="Cumulative GPA progress"><span id="score-progress"></span></div>
+          <p class="summary-footnote">Your overall credit-weighted average</p>
+        </article>
+
+        <article class="summary-card">
+          <div class="summary-card-top">
+            <span class="summary-title">TOTAL CREDITS</span>
+            <span class="summary-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M17 7.5c0-1.7-2.2-3-5-3s-5 1.3-5 3 2.2 2.8 5 3 5 1.3 5 3-2.2 3-5 3-5-1.3-5-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </span>
+          </div>
+          <div class="summary-number"><strong id="total-credits">0</strong><span>credits</span></div>
+          <div class="summary-subrow"><span>Semesters tracked</span><strong id="semester-count">0</strong></div>
+        </article>
+
+        <article class="summary-card">
+          <div class="summary-card-top">
+            <span class="summary-title">QUALITY POINTS</span>
+            <span class="summary-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="m12 3 2.6 5.3 5.9.9-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.2 5.9-.9L12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+          <div class="summary-number"><strong id="total-points">0.00</strong><span>points</span></div>
+          <div class="summary-subrow"><span>Courses tracked</span><strong id="course-count">0</strong></div>
+        </article>
+      </section>
+
+      <section class="chart-panel panel" aria-labelledby="chart-title">
+        <div class="chart-header">
+          <div>
+            <p class="section-kicker">PERFORMANCE ANALYTICS</p>
+            <h1 id="chart-title">Semester performance trend</h1>
+            <p class="section-description">Compare your semester GPA with your target as you progress.</p>
+          </div>
+          <label class="target-control" for="target-gpa">
+            <span>Target GPA</span>
+            <span class="target-input-wrap">
+              <input id="target-gpa" type="number" min="0" max="4" step="0.1" value="3.5" aria-label="Target GPA for chart">
+              <span>/ 4.0</span>
+            </span>
+          </label>
+        </div>
+        <div class="chart-legend" aria-hidden="true">
+          <span><i class="legend-dot legend-semester"></i> Semester GPA</span>
+          <span><i class="legend-dot legend-target"></i> Target GPA</span>
+        </div>
+        <div class="trend-chart-wrap" id="chart-wrap">
+          <svg class="trend-chart" id="semester-chart" role="img" aria-labelledby="chart-title chart-description"></svg>
+        </div>
+        <p class="sr-only" id="chart-description" aria-live="polite">No completed semesters to compare yet.</p>
+      </section>
+
+      <section class="semester-section" aria-labelledby="semester-section-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">COURSE MANAGEMENT</p>
+            <h2 id="semester-section-title">Semester breakdown</h2>
+            <p class="section-description">Edit courses and compare your semester GPAs as you go.</p>
+          </div>
+          <div class="semester-section-actions">
+            <button class="header-button reset-data-button" id="reset-data" type="button">Reset all</button>
+            <button class="action-button add-semester-button" id="add-semester" type="button">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 4v12m6-6H4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <span>Add semester</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="semester-list" id="semester-list" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <span>GAF TECH <span class="footer-separator">·</span> GPA CALCULATOR</span>
+      <span>University of Education, Winneba</span>
+      <span>Course and semester data is saved locally in this browser.</span>
+    </footer>
   </div>
-    
   <script src="script.js"></script>
 </body>
 </html>
