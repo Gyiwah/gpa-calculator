@@ -1,14 +1,4 @@
-const gradePoints = {
-  A: 4,
-  'B+': 3.5,
-  B: 3,
-  'C+': 2.5,
-  C: 2,
-  'D+': 1.5,
-  D: 1,
-  E: 0
-};
-
+const { gradePoints, averageGradePoints, getClassOfHonour } = window.GpaCore;
 const STORAGE_KEY = 'gpa_calculator_semesters';
 const gradeOrder = ['A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'E'];
 const semesterList = document.getElementById('semester-list');
@@ -75,25 +65,6 @@ function initializeTheme() {
       ? 'dark'
       : 'light';
   applyTheme(theme);
-}
-
-function averageGradePoints(courses) {
-  const totalCredits = courses.reduce((total, course) => total + course.credits, 0);
-  if (totalCredits === 0) return null;
-
-  const weightedPoints = courses.reduce(
-    (total, course) => total + gradePoints[course.grade] * course.credits,
-    0
-  );
-  return weightedPoints / totalCredits;
-}
-
-function getClassOfHonour(gpa) {
-  if (gpa >= 3.5) return 'First Class Honours';
-  if (gpa >= 3) return 'Second Class Honours (Upper Division)';
-  if (gpa >= 2.5) return 'Second Class Honours (Lower Division)';
-  if (gpa >= 2) return 'Third Class Honours';
-  return 'Pass';
 }
 
 const honourBadgeClasses = {
@@ -203,7 +174,7 @@ function renderSemesters() {
     table.className = 'course-table';
     const tableHead = document.createElement('thead');
     const headRow = document.createElement('tr');
-    ['Course title / code', 'Credits', 'Grade', 'Quality points', ''].forEach((label) => {
+    ['Course title / code', 'Credits', 'Grade', 'Quality points', 'Actions'].forEach((label) => {
       const heading = document.createElement('th');
       heading.scope = 'col';
       heading.textContent = label;
@@ -308,6 +279,10 @@ function updateSummary() {
     cumulativeAverage === null ? '—' : cumulativeAverage.toFixed(2);
   document.getElementById('score-progress').style.width =
     `${cumulativeAverage === null ? 0 : (cumulativeAverage / 4) * 100}%`;
+  document.querySelector('.progress-track').setAttribute(
+    'aria-valuenow',
+    cumulativeAverage === null ? '0' : cumulativeAverage.toFixed(2)
+  );
 
   const honour = cumulativeAverage === null ? 'Awaiting grades' : getClassOfHonour(cumulativeAverage);
   const honourBadge = document.getElementById('class-of-honour');
@@ -480,6 +455,21 @@ function getSemesterById(id) {
   return semesters.find((semester) => semester.id === Number(id));
 }
 
+function focusAfterDeletion(action, semesterIndex, courseIndex) {
+  if (action === 'remove-semester') {
+    const nextCard = semesterList.children[Math.min(semesterIndex, semesterList.children.length - 1)];
+    (nextCard?.querySelector('[data-action="add-course"]') ||
+      document.getElementById('add-semester')).focus();
+    return;
+  }
+
+  const card = semesterList.children[semesterIndex];
+  if (!card) return;
+  const courses = card.querySelectorAll('.course-name-input');
+  (courses[Math.min(courseIndex, courses.length - 1)] ||
+    card.querySelector('[data-action="add-course"]')).focus();
+}
+
 document.getElementById('add-semester').addEventListener('click', () => {
   semesters.push({ id: nextSemesterId++, courses: [] });
   saveSemesters();
@@ -500,8 +490,9 @@ semesterList.addEventListener('click', (event) => {
 
   const semester = getSemesterById(button.dataset.semesterId);
   if (!semester) return;
+  const action = button.dataset.action;
 
-  if (button.dataset.action === 'add-course') {
+  if (action === 'add-course') {
     semester.courses.push({
       name: `Course ${semester.courses.length + 1}`,
       credits: 3,
@@ -513,18 +504,19 @@ semesterList.addEventListener('click', (event) => {
     return;
   }
 
-  if (button.dataset.action === 'remove-course') {
-    semester.courses.splice(Number(button.dataset.courseIndex), 1);
-  } else if (button.dataset.action === 'remove-semester') {
+  const semesterIndex = semesters.indexOf(semester);
+  const courseIndex = Number(button.dataset.courseIndex);
+  if (action === 'remove-course') {
+    semester.courses.splice(courseIndex, 1);
+  } else if (action === 'remove-semester') {
     semesters = semesters.filter((item) => item.id !== semester.id);
   } else {
     return;
   }
 
   saveSemesters();
-  updateSemesterCardSummaries();
-  updateSummary();
-  renderChart();
+  render();
+  focusAfterDeletion(action, semesterIndex, courseIndex);
 });
 
 semesterList.addEventListener('input', (event) => {
@@ -629,7 +621,113 @@ document.getElementById('export').addEventListener('click', () => {
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 
-document.getElementById('print').addEventListener('click', () => window.print());
+function renderPrintReport() {
+  const report = document.getElementById('print-report');
+  report.replaceChildren();
+
+  const heading = document.createElement('header');
+  heading.className = 'print-report-header';
+  const brand = document.createElement('p');
+  brand.className = 'print-report-brand';
+  brand.textContent = 'GPA CALCULATOR';
+  const title = document.createElement('h1');
+  title.id = 'print-report-title';
+  title.textContent = 'Academic Performance Report';
+  const institution = document.createElement('p');
+  institution.textContent = 'University of Education, Winneba';
+  const developer = document.createElement('p');
+  developer.className = 'print-report-company';
+  developer.textContent = 'Developed by GAF Tech';
+  const generated = document.createElement('p');
+  generated.className = 'print-report-date';
+  generated.textContent = `Generated ${new Intl.DateTimeFormat(undefined, { dateStyle: 'long' }).format(new Date())}`;
+  heading.append(brand, title, institution, developer, generated);
+
+  const allCourses = semesters.flatMap((semester) => semester.courses);
+  const cumulativeGpa = averageGradePoints(allCourses);
+  const summary = document.createElement('section');
+  summary.className = 'print-report-summary';
+  summary.setAttribute('aria-label', 'Academic summary');
+  [
+    ['Cumulative GPA', cumulativeGpa === null ? '—' : cumulativeGpa.toFixed(2)],
+    ['Class of Honours', cumulativeGpa === null ? 'Awaiting grades' : getClassOfHonour(cumulativeGpa)],
+    ['Total credits', String(allCourses.reduce((total, course) => total + course.credits, 0))],
+    ['Quality points', allCourses.reduce((total, course) =>
+      total + gradePoints[course.grade] * course.credits, 0).toFixed(2)]
+  ].forEach(([label, value]) => {
+    const item = document.createElement('div');
+    item.className = 'print-report-summary-item';
+    const itemLabel = document.createElement('span');
+    itemLabel.textContent = label;
+    const itemValue = document.createElement('strong');
+    itemValue.textContent = value;
+    item.append(itemLabel, itemValue);
+    summary.append(item);
+  });
+
+  report.append(heading, summary);
+  if (semesters.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'print-report-empty';
+    empty.textContent = 'No semesters or courses have been recorded.';
+    report.append(empty);
+  }
+
+  semesters.forEach((semester, semesterIndex) => {
+    const section = document.createElement('section');
+    section.className = 'print-semester';
+    const semesterTitle = document.createElement('h2');
+    semesterTitle.textContent = `Semester ${semesterIndex + 1}`;
+    const semesterGpa = averageGradePoints(semester.courses);
+    const details = document.createElement('p');
+    details.textContent =
+      `Semester GPA: ${semesterGpa === null ? '—' : semesterGpa.toFixed(2)} · ` +
+      `${semester.courses.reduce((total, course) => total + course.credits, 0)} credits`;
+    section.append(semesterTitle, details);
+
+    if (semester.courses.length > 0) {
+      const table = document.createElement('table');
+      table.className = 'print-course-table';
+      const head = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      ['Course title / code', 'Credits', 'Grade', 'Quality points'].forEach((label) => {
+        const cell = document.createElement('th');
+        cell.scope = 'col';
+        cell.textContent = label;
+        headerRow.append(cell);
+      });
+      head.append(headerRow);
+      const body = document.createElement('tbody');
+      semester.courses.forEach((course) => {
+        const row = document.createElement('tr');
+        [
+          course.name || 'Untitled course',
+          String(course.credits),
+          course.grade,
+          (gradePoints[course.grade] * course.credits).toFixed(2)
+        ].forEach((value) => {
+          const cell = document.createElement('td');
+          cell.textContent = value;
+          row.append(cell);
+        });
+        body.append(row);
+      });
+      table.append(head, body);
+      section.append(table);
+    } else {
+      const noCourses = document.createElement('p');
+      noCourses.className = 'print-report-empty';
+      noCourses.textContent = 'No courses recorded for this semester.';
+      section.append(noCourses);
+    }
+    report.append(section);
+  });
+}
+
+document.getElementById('print').addEventListener('click', () => {
+  renderPrintReport();
+  window.print();
+});
 themeToggle.addEventListener('click', () => {
   const theme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
   applyTheme(theme, true);

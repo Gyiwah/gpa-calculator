@@ -901,7 +901,11 @@ button {
 .grade-button:focus-visible,
 .header-button:focus-visible,
 .icon-button:focus-visible,
-.action-button:focus-visible {
+.action-button:focus-visible,
+.course-name-input:focus-visible,
+.credit-input:focus-visible,
+.grade-select:focus-visible,
+.target-input-wrap input:focus-visible {
   outline: 2px solid rgba(1, 21, 62, 0.45);
   outline-offset: 2px;
 }
@@ -1296,36 +1300,144 @@ button {
 }
 
 @media print {
+  @page {
+    size: A4;
+    margin: 16mm 14mm;
+  }
+
   body {
+    color: #172033;
     background: #fff;
+    font: 10pt/1.45 Arial, sans-serif;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
   }
 
-  .topbar {
-    position: static;
-    padding: 0;
-  }
-
-  .topbar-actions,
-  .grade-entry,
-  .semester-card-footer,
-  .icon-button {
+  .app-shell > :not(#print-report) {
     display: none !important;
   }
 
-  .main-content {
-    width: 100%;
-    padding-top: 16px;
+  .print-report {
+    display: block !important;
+    color: #172033;
   }
 
-  .panel,
-  .summary-card {
+  .print-report-header {
+    padding-bottom: 12pt;
+    border-bottom: 2pt solid #173f70;
+  }
+
+  .print-report-brand {
+    margin: 0 0 5pt;
+    color: #2563a6;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .print-report-header h1 {
+    margin: 0 0 4pt;
+    color: #102a4c;
+    font-size: 22pt;
+    line-height: 1.15;
+  }
+
+  .print-report-header p {
+    margin: 3pt 0;
+  }
+
+  .print-report-date {
+    color: #526174;
+    font-size: 9pt;
+  }
+
+  .print-report-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8pt;
+    margin: 14pt 0 18pt;
+  }
+
+  .print-report-summary-item {
+    padding: 9pt;
+    border: 0.7pt solid #cbd5e1;
+    border-radius: 4pt;
+  }
+
+  .print-report-summary-item span,
+  .print-report-summary-item strong {
+    display: block;
+  }
+
+  .print-report-summary-item span {
+    margin-bottom: 4pt;
+    color: #526174;
+    font-size: 8pt;
+  }
+
+  .print-report-summary-item strong {
+    color: #102a4c;
+    font-size: 11pt;
+  }
+
+  .print-semester {
+    margin: 0 0 16pt;
     break-inside: avoid;
-    box-shadow: none;
   }
 
-  .page-footer {
-    margin-top: 20px;
+  .print-semester h2 {
+    margin: 0 0 3pt;
+    padding-bottom: 4pt;
+    color: #173f70;
+    border-bottom: 0.7pt solid #cbd5e1;
+    font-size: 13pt;
   }
+
+  .print-semester > p {
+    margin: 4pt 0 8pt;
+    color: #526174;
+  }
+
+  .print-course-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+  }
+
+  .print-course-table thead {
+    display: table-header-group;
+  }
+
+  .print-course-table tr {
+    break-inside: avoid;
+  }
+
+  .print-course-table th,
+  .print-course-table td {
+    padding: 6pt 7pt;
+    border: 0.5pt solid #cbd5e1;
+    text-align: left;
+  }
+
+  .print-course-table th {
+    color: #173f70;
+    background: #edf3f9 !important;
+    font-size: 8pt;
+    text-transform: uppercase;
+  }
+
+  .print-course-table td:not(:first-child) {
+    white-space: nowrap;
+  }
+
+  .print-report-empty {
+    color: #526174;
+    font-style: italic;
+  }
+}
+
+.print-report {
+  display: none;
 }
 
 :root.dark {
