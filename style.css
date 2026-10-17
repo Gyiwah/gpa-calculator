@@ -1320,6 +1320,7 @@ button {
   .print-report {
     display: block !important;
     color: #172033;
+    background-color: #fff;
   }
 
   .print-report-header {
@@ -2055,5 +2056,23 @@ body,
 
   .page-footer {
     font-size: 10px;
+  }
+}
+
+@media print {
+  :root,
+  :root.dark {
+    color-scheme: light;
+    background-color: #fff;
+  }
+
+  :root.dark body {
+    color: #172033;
+    background-color: #fff !important;
+  }
+
+  :root.dark .print-report {
+    color: #172033;
+    background-color: #fff;
   }
 }
